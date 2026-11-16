@@ -62,18 +62,6 @@ DEPENDS	:=	$(OFILES:.o=.d)
 $(OUTPUT).dol: $(OUTPUT).elf
 $(OUTPUT).elf: $(OFILES)
 
-%.png.o: %.png
-	@echo $(notdir $<)
-	$(bin2o)
-
-%.jpg.o: %.jpg
-	@echo $(notdir $<)
-	$(bin2o)
-
-%.mp3.o: %.mp3
-	@echo $(notdir $<)
-	$(bin2o)
-
 -include $(DEPENDS)
 
 endif
