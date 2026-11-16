@@ -1,12 +1,8 @@
 #include <grrlib.h>
 #include <stdlib.h>
 #include <wiiuse/wpad.h>
-#include <asndlib.h>
-#include <mp3player.h>
 
-// Inclusao automatica dos arquivos da pasta "data"
-#include "resource_01_ae013c9bc764_mp3.h" // Som de vento (Fase)
-#include "resource_03_b07cd8c3bac0_mp3.h" // Musica icone rosa (Tela Inicial)
+// Inclusao automatica das imagens da pasta "data"
 #include "resource_05_0666e3d66131_jpg.h" // Logo Castlevania
 #include "resource_06_c6944ff8027d_png.h" // Press Start (Branco)
 #include "resource_07_d31bc0b8bc20_png.h" // Press Start (Vermelho)
@@ -17,11 +13,9 @@
 #include "resource_32_3989a379246b_png.h" // Chao de pedra
 
 int main(int argc, char **argv) {
-    // Inicia video, controles e audio MP3
+    // Inicia video e controles do Wii
     GRRLIB_Init();
     WPAD_Init();
-    ASND_Init();
-    MP3Player_Init();
 
     // Carrega as imagens na memoria do Wii
     GRRLIB_texImg *tex_fundo   = GRRLIB_LoadTexture(resource_21_90850a0a363b_jpg);
@@ -44,9 +38,6 @@ int main(int argc, char **argv) {
     int direcao = 1; // 1 = direita, -1 = esquerda
     int atacando = 0;
 
-    // Toca a musica da tela inicial (icone rosa) logo ao abrir
-    MP3Player_PlayBuffer(resource_03_b07cd8c3bac0_mp3, resource_03_b07cd8c3bac0_mp3_size, NULL);
-
     while (1) {
         WPAD_ScanPads();
         u32 down = WPAD_ButtonsDown(0);
@@ -57,11 +48,6 @@ int main(int argc, char **argv) {
         timer++;
 
         if (estado == 0) {
-            // Mantem a musica inicial tocando em loop
-            if (!MP3Player_IsPlaying()) {
-                MP3Player_PlayBuffer(resource_03_b07cd8c3bac0_mp3, resource_03_b07cd8c3bac0_mp3_size, NULL);
-            }
-
             // Desenha a Tela Inicial
             GRRLIB_DrawImg(0, 0, tex_fundo, 0, 1.0f, 1.05f, 0xFFFFFFFF);
             GRRLIB_DrawImg(420, 30, tex_lua, 0, 0.45f, 0.45f, 0xFFFFFFFF);
@@ -78,17 +64,9 @@ int main(int argc, char **argv) {
             // Aperte A ou + para iniciar o jogo
             if ((down & WPAD_BUTTON_A) || (down & WPAD_BUTTON_PLUS)) {
                 estado = 1;
-                MP3Player_Stop();
-                // Comeca o barulho de vento (resource_01)
-                MP3Player_PlayBuffer(resource_01_ae013c9bc764_mp3, resource_01_ae013c9bc764_mp3_size, NULL);
             }
 
         } else if (estado == 1) {
-            // Mantem o barulho de vento tocando em loop
-            if (!MP3Player_IsPlaying()) {
-                MP3Player_PlayBuffer(resource_01_ae013c9bc764_mp3, resource_01_ae013c9bc764_mp3_size, NULL);
-            }
-
             // Controles (Wii Remote na horizontal ou vertical)
             if ((held & WPAD_BUTTON_RIGHT) || (held & WPAD_BUTTON_DOWN)) {
                 playerX += 3.5f;
@@ -154,7 +132,6 @@ int main(int argc, char **argv) {
     }
 
     // Limpa memoria ao sair
-    MP3Player_Stop();
     GRRLIB_FreeTexture(tex_fundo);
     GRRLIB_FreeTexture(tex_lua);
     GRRLIB_FreeTexture(tex_castelo);
