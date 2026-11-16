@@ -18,7 +18,9 @@ jobs:
           path: grrlib_src
 
       - name: Instalar GRRLIB
-        run: make -C grrlib_src/GRRLIB install
+        run: |
+          make -C grrlib_src/GRRLIB
+          make -C grrlib_src/GRRLIB install
 
       - name: Compilar boot.dol
         run: make
