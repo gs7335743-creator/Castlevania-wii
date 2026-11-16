@@ -16,7 +16,7 @@ LDFLAGS		=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 
 LIBS		:=	-lgrrlib -lpngu -lpng -ljpeg -lfreetype -lmad -lasnd -lwiiuse -lbte -logc -lm
 
-LIBDIRS		:=	$(PORTLIBS)/wii $(PORTLIBS)/ppc $(LIBOGC) $(DEVKITPRO)/libogc
+LIBDIRS		:=	$(DEVKITPRO)/portlibs/wii $(DEVKITPRO)/portlibs/ppc $(DEVKITPRO)/libogc
 
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 
