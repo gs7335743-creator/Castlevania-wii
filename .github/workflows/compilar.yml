@@ -8,15 +8,17 @@ jobs:
     container:
       image: devkitpro/devkitppc:latest
     steps:
-      - name: Baixar codigo
+      - name: Baixar codigo do jogo
         uses: actions/checkout@v4
 
+      - name: Baixar GRRLIB oficial
+        uses: actions/checkout@v4
+        with:
+          repository: GRRLIB/GRRLIB
+          path: grrlib_src
+
       - name: Instalar GRRLIB
-        run: |
-          apt-get update && apt-get install -y curl unzip
-          curl -fL https://github.com -o /tmp/grrlib.zip
-          unzip -q /tmp/grrlib.zip -d /tmp
-          make -C /tmp/GRRLIB-main/GRRLIB install
+        run: make -C grrlib_src/GRRLIB install
 
       - name: Compilar boot.dol
         run: make
