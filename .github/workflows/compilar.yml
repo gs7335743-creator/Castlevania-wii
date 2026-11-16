@@ -1,0 +1,22 @@
+name: Compilar Castlevania Wii
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: devkitpro/devkitppc:latest
+    steps:
+      - name: Baixar codigo
+        uses: actions/checkout@v4
+
+      - name: Compilar boot.dol
+        run: make
+
+      - name: Salvar boot.dol
+        uses: actions/upload-artifact@v4
+        with:
+          name: castlevania-wii-dol
+          path: "*.dol"
+          
