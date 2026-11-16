@@ -14,7 +14,7 @@ CFLAGS		=	-g -O2 -Wall $(MACHDEP) $(INCLUDE)
 CXXFLAGS	=	$(CFLAGS)
 LDFLAGS		=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 
-LIBS		:=	-lgrrlib -lpngu -lpng -ljpeg -lfreetype -lbrotlidec -lbrotlicommon -lbz2 -lz -lfat -lmad -lasnd -lwiiuse -lbte -logc -lm
+LIBS		:=	-lgrrlib -lpngu -lpng -ljpeg -lfreetype -lbrotlidec -lbrotlicommon -lbz2 -lz -lfat -laesnd -lasnd -lmad -lwiiuse -lbte -logc -lm
 
 LIBDIRS		:=	$(DEVKITPRO)/portlibs/wii $(DEVKITPRO)/portlibs/ppc $(DEVKITPRO)/libogc
 
