@@ -62,7 +62,23 @@ DEPENDS	:=	$(OFILES:.o=.d)
 $(OUTPUT).dol: $(OUTPUT).elf
 $(OUTPUT).elf: $(OFILES)
 
+define bin2o_custom
+	@echo $(notdir $<)
+	@bin2s -a 32 $< | $(AS) -o $(@)
+	@echo "extern const u8" `(echo $(notdir $<) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"_end[];" > `(echo $(notdir $<) | tr . _)`.h
+	@echo "extern const u8" `(echo $(notdir $<) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"[];" >> `(echo $(notdir $<) | tr . _)`.h
+	@echo "extern const u32" `(echo $(notdir $<) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`_size";" >> `(echo $(notdir $<) | tr . _)`.h
+endef
+
+%.png.o: %.png
+	$(bin2o_custom)
+
+%.jpg.o: %.jpg
+	$(bin2o_custom)
+
+%.mp3.o: %.mp3
+	$(bin2o_custom)
+
 -include $(DEPENDS)
 
 endif
- 
