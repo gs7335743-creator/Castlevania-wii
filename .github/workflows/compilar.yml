@@ -11,6 +11,9 @@ jobs:
       - name: Baixar codigo
         uses: actions/checkout@v4
 
+      - name: Instalar GRRLIB
+        run: dkp-pacman -Syu --noconfirm wii-grrlib wii-libpng wii-libjpeg-turbo wii-libmad
+
       - name: Compilar boot.dol
         run: make
 
@@ -19,4 +22,4 @@ jobs:
         with:
           name: castlevania-wii-dol
           path: "*.dol"
-           
+          
