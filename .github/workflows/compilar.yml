@@ -11,11 +11,12 @@ jobs:
       - name: Baixar codigo
         uses: actions/checkout@v4
 
-      - name: Instalar bibliotecas Wii e GRRLIB
+      - name: Instalar GRRLIB
         run: |
-          dkp-pacman -Syu --noconfirm git ppc-libpng ppc-libjpeg-turbo ppc-freetype ppc-libmad libfat-ogc
-          git clone https://github.com /tmp/GRRLIB
-          make -C /tmp/GRRLIB/GRRLIB install
+          apt-get update && apt-get install -y curl unzip
+          curl -L https://github.com -o /tmp/grrlib.zip
+          unzip -q /tmp/grrlib.zip -d /tmp
+          make -C /tmp/GRRLIB-master/GRRLIB install
 
       - name: Compilar boot.dol
         run: make
